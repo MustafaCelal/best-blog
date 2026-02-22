@@ -27,6 +27,18 @@ services:
     networks:
       - blog-network
 
+  showcase:
+    build:
+      context: ./public-blog
+    container_name: best-blog-showcase
+    restart: unless-stopped
+    ports:
+      - "4321:4321"
+    depends_on:
+      - backend
+    networks:
+      - blog-network
+
 networks:
   blog-network:
     driver: bridge

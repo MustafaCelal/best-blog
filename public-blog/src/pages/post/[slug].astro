@@ -1,0 +1,32 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PocketBase from 'pocketbase';
+
+export async function getStaticPaths() {
+  const pb = new PocketBase('http://backend:8080'); // Build time connection
+  const posts = await pb.collection('posts').getFullList();
+  
+  return posts.map(post => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+---
+
+<Layout title={post.title}>
+    <article>
+        <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">{post.title}</h1>
+        <div style="color: var(--text-dim); margin-bottom: 3rem;">
+            {new Date(post.created).toLocaleDateString('tr-TR')}
+        </div>
+        
+        <div class="content" set:html={post.content} />
+    </article>
+</Layout>
+
+<style is:global>
+    .content h2 { margin-top: 2.5rem; }
+    .content p { font-size: 1.15rem; margin-bottom: 1.5rem; color: #cbd5e1; }
+</style>
