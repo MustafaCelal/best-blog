@@ -15,6 +15,18 @@ services:
     networks:
       - blog-network
 
+  admin-ui:
+    build:
+      context: ./admin-ui
+    container_name: best-blog-admin
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+    networks:
+      - blog-network
+
 networks:
   blog-network:
     driver: bridge

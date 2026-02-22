@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Admin | The Trio</title>
+    <style>
+        :root {
+            --primary: #6366f1;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-dim: #94a3b8;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            height: 100vh;
+        }
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            width: 90%;
+        }
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        input#title {
+            width: 100%;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--surface);
+            color: var(--text);
+            font-size: 2rem;
+            padding: 0.5rem 0;
+            margin-bottom: 1rem;
+            outline: none;
+        }
+        input#title:focus {
+            border-color: var(--primary);
+        }
+        .tiptap-editor {
+            background: var(--surface);
+            border-radius: 0.75rem;
+            min-height: 400px;
+            padding: 1rem;
+            border: 1px solid #334155;
+        }
+        .tiptap-editor:focus-within {
+            border-color: var(--primary);
+        }
+        .ProseMirror { outline: none; min-height: 380px; }
+        .ProseMirror p { line-height: 1.6; }
+        .toolbar {
+            display: flex;
+            gap: 0.5rem;
+            background: #334155;
+            padding: 0.5rem;
+            border-radius: 0.5rem 0.5rem 0 0;
+            border-bottom: 1px solid #475569;
+        }
+        .toolbar button {
+            background: transparent;
+            color: white;
+            border: 1px solid #475569;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+        .toolbar button:hover { background: var(--primary); }
+        .save-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 2rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .save-btn:hover { transform: scale(1.05); }
+    </style>
+</head>
+<body x-data="adminApp()">
+    <div class="container">
+        <header class="editor-header">
+            <h1>Yeni İçerik</h1>
+            <button class="save-btn" @click="savePost()">Yayınla</button>
+        </header>
+
+        <input type="text" id="title" x-model="post.title" placeholder="Yazı Başlığı...">
+        
+        <div class="tiptap-editor">
+            <div class="toolbar">
+                <button @click="editor.chain().focus().toggleBold().run()">B</button>
+                <button @click="editor.chain().focus().toggleItalic().run()">I</button>
+                <button @click="editor.chain().focus().toggleHeading({ level: 2 }).run()">H2</button>
+            </div>
+            <div id="editor-content"></div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/main.js"></script>
+</body>
+</html>
